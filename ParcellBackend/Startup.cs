@@ -30,6 +30,7 @@ namespace ParcellBackend {
             services.AddSingleton(typeof(IDbClient<>), typeof(DbClient<>));
             services.AddScoped<UserService>();
             services.AddScoped<UserServiceRepository>();
+            services.AddScoped<DeviceServiceRepository>();
 
 
             services.AddCors(c =>

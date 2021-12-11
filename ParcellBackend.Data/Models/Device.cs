@@ -5,7 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ParcellBackend.Data.Models {
-    class Device : BaseMongoModel {
+    public class Device : BaseMongoModel {
+
 
         public string Name { get; set; }
         public string DetailText { get; set; }
