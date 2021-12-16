@@ -19,12 +19,16 @@ namespace ParcellBackend.Controllers {
         }
 
         [HttpGet]
-        public async Task<List<Device>> GetDevices() =>
-            await deviceService.GetList();
+        public async Task<List<Device>> GetDevices() {
+            var userList = await deviceService.GetList();
+
+            return userList;
+        }
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Device>> GetDevice(string id) {
             var user = await deviceService.Get(id);
+
 
             if (user is null) {
                 return NotFound();

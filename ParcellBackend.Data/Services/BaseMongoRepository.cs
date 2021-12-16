@@ -11,7 +11,7 @@ namespace ParcellBackend.Data.Services {
     public class BaseMongoRepository<Tmodel> : IBaseRepository<Tmodel>
         where Tmodel : BaseMongoModel {
 
-        private readonly IMongoCollection<Tmodel> modelMongoCollection;
+        internal readonly IMongoCollection<Tmodel> modelMongoCollection;
 
         public BaseMongoRepository(IDbClient<Tmodel> dbClient) {
 

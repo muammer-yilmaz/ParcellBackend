@@ -1,4 +1,5 @@
-﻿using ParcellBackend.Data.Models;
+﻿using MongoDB.Driver;
+using ParcellBackend.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace ParcellBackend.Data.Services {
     public class UserServiceRepository : BaseMongoRepository<User> {
+
+        //private readonly IMongoCollection<User>
 
         public UserServiceRepository(IDbClient<User> dbClient) : base(dbClient) {
 
@@ -32,6 +35,9 @@ namespace ParcellBackend.Data.Services {
         public override Task Delete(string id) {
             return base.Delete(id);
         }
+
+        public async Task<User> GetUserWithMail(string mail) =>
+            await base.modelMongoCollection.Find(x => x.Mail == mail).FirstOrDefaultAsync();
 
 
 
