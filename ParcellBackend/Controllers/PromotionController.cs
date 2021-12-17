@@ -22,23 +22,23 @@ namespace ParcellBackend.Controllers
         [HttpGet]
         public async Task<List<Promotion>> GetPromotions()
         {
-            var userList = await promotionService.GetList();
+            var promotionList = await promotionService.GetList();
 
-            return userList;
+            return promotionList;
         }
 
         [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Promotion>> GetPromotion(string id)
         {
-            var user = await promotionService.Get(id);
+            var promotion = await promotionService.Get(id);
 
 
-            if (user is null)
+            if (promotion is null)
             {
                 return NotFound();
             }
 
-            return user;
+            return promotion;
         }
 
         [HttpPost]
@@ -53,14 +53,14 @@ namespace ParcellBackend.Controllers
         [HttpPut("{id:length(24)}")]
         public async Task<IActionResult> UpdatePromotion(string id, Promotion updatedPromotion)
         {
-            var user = await promotionService.Get(id);
+            var promotion = await promotionService.Get(id);
 
-            if (user is null)
+            if (promotion is null)
             {
                 return NotFound();
             }
 
-            updatedPromotion.Id = user.Id;
+            updatedPromotion.Id = promotion.Id;
 
             await promotionService.Update(id, updatedPromotion);
 
@@ -70,9 +70,9 @@ namespace ParcellBackend.Controllers
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> DeletePromotion(string id)
         {
-            var user = await promotionService.Get(id);
+            var promotion = await promotionService.Get(id);
 
-            if (user is null)
+            if (promotion is null)
             {
                 return NotFound();
             }
