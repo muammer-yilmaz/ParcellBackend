@@ -36,10 +36,11 @@ namespace ParcellBackend.Data.Services {
             return base.Delete(id);
         }
 
+        public async Task<User> LoginWithMail(string mail , string password) =>
+            await base.modelMongoCollection.Find(x => x.Mail == mail && x.Password == password).FirstOrDefaultAsync();
+
         public async Task<User> GetUserWithMail(string mail) =>
             await base.modelMongoCollection.Find(x => x.Mail == mail).FirstOrDefaultAsync();
-
-
 
     }
 }
