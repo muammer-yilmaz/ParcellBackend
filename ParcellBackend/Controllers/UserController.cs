@@ -70,32 +70,32 @@ namespace ParcellBackend.Controllers {
             return NoContent();
         }
 
-        [HttpGet("{mail}")]
-        public async Task<ActionResult<User>> GetUserWithMail(string mail) {
+        [HttpGet]
+        public async Task<ActionResult<User>> LoginWithMail(string mail , string password) {
 
-            var user = await _userService.GetUserWithMail(mail);
+            var user = await _userService.LoginWithMail(mail,password);
 
             if(user is null) {
-                return NotFound();
+                return NotFound("kullanıcı bulunamadı");
             }
 
             return user;
         }
 
-        /*
+        
         [HttpGet]
-        public async Task<ActionResult> loginWithMail(string mail, string password) {
+        public async Task<ActionResult<User>> GetUserWithMail(string mail) {
 
-            var user = await _userService.loginWithMail(mail, password);
+            var user = await _userService.GetUserWithMail(mail);
 
 
             if (user is null) {
                 return NotFound();
             }
 
-            return Ok("Kullanıcı girisi onaylandı");
+            return Ok(user);
         }
-        */
+        
 
     }
 }
