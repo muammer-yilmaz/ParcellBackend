@@ -31,7 +31,7 @@ namespace ParcellBackend {
             services.AddScoped<UserService>();
             services.AddScoped<UserServiceRepository>();
             services.AddScoped<DeviceServiceRepository>();
-
+            services.AddScoped<PromotionServiceRepository>();
 
             services.AddCors(c =>
             {
