@@ -10,6 +10,7 @@ namespace ParcellBackend.Data.Services {
     public class UserServiceRepository : BaseMongoRepository<User> {
 
         //private readonly IMongoCollection<User>
+        private readonly List<int> numberFirst3Digit;
 
         public UserServiceRepository(IDbClient<User> dbClient) : base(dbClient) {
 
@@ -42,5 +43,8 @@ namespace ParcellBackend.Data.Services {
         public async Task<User> GetUserWithMail(string mail) =>
             await base.modelMongoCollection.Find(x => x.Mail == mail).FirstOrDefaultAsync();
 
+        public async Task<string> AssignPhoneNumber() {
+
+        }
     }
 }

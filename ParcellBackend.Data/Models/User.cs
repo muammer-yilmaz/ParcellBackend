@@ -11,5 +11,7 @@ namespace ParcellBackend.Data.Models {
         public string Gender { get; set; }
         public string BirthPlace { get; set; }
         public DateTime BirthDate { get; set; }
+        public string Address { get; set; }
+        public double Balance { get; set; }
     }
 }
