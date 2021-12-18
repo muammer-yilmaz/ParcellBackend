@@ -13,5 +13,6 @@ namespace ParcellBackend.Data.Models
         public string Minutes { get; set; }
         public string Sms { get; set; }
         public int Price { get; set; }
+        public string Image { get; set; }
     }
 }
