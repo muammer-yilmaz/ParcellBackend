@@ -96,6 +96,16 @@ namespace ParcellBackend.Controllers {
             return Ok(user);
         }
         
+        [HttpGet]
+        public async Task<ActionResult> ChangeUserPassword(string oldPassword, string newPassword) {
+            var response = await _userService.ChangeUserPassword(oldPassword, newPassword);
+
+            if (response == "NotFound")
+                return NotFound();
+            else
+                return Ok();
+
+        }
 
     }
 }

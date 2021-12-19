@@ -37,14 +37,40 @@ namespace ParcellBackend.Data.Services {
             return base.Delete(id);
         }
 
-        public async Task<User> LoginWithMail(string mail , string password) =>
+        public async Task<User> LoginWithMail(string mail, string password) =>
             await base.modelMongoCollection.Find(x => x.Mail == mail && x.Password == password).FirstOrDefaultAsync();
 
         public async Task<User> GetUserWithMail(string mail) =>
             await base.modelMongoCollection.Find(x => x.Mail == mail).FirstOrDefaultAsync();
 
+        /*
         public async Task<string> AssignPhoneNumber() {
+        }
+        */
 
+        public async Task<string> ChangeUserPassword(string oldPassword, string newPassword) {
+            var user = await base.modelMongoCollection.Find(x => x.Password == oldPassword).FirstOrDefaultAsync();
+
+            if (user is null) {
+                return "NotFound";
+            }
+            else {
+                var changedUser = new User {
+                    Id = user.Id,
+                    Name = user.Name,
+                    Surname = user.Surname,
+                    Mail = user.Mail,
+                    Phone = user.Phone,
+                    BirthDate = user.BirthDate,
+                    BirthPlace = user.BirthPlace,
+                    Address = user.Address,
+                    Balance = user.Balance,
+                    Gender = user.Gender,
+                    Password = newPassword
+                };
+                base.modelMongoCollection.ReplaceOneAsync(x => x.Id == user.Id, changedUser);
+            }
+            return "Ok";
         }
     }
 }
