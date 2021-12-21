@@ -68,9 +68,14 @@ namespace ParcellBackend.Data.Services {
                     Gender = user.Gender,
                     Password = newPassword
                 };
-                base.modelMongoCollection.ReplaceOneAsync(x => x.Id == user.Id, changedUser);
+                await base.modelMongoCollection.ReplaceOneAsync(x => x.Id == user.Id, changedUser);
             }
             return "Ok";
+
         }
+    
+    
+        
+
     }
 }

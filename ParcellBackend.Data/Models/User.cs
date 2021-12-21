@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ParcellBackend.Data.Models {
     public class User : BaseMongoModel {
@@ -13,5 +14,6 @@ namespace ParcellBackend.Data.Models {
         public DateTime BirthDate { get; set; }
         public string Address { get; set; }
         public double Balance { get; set; }
+        public string PlanId { get; set; }
     }
 }
