@@ -14,5 +14,6 @@ namespace ParcellBackend.Data.Models
         public string Answer { get; set; }
         public string Question2 { get; set; }
         public string Answer2 { get; set; }
+        public string BottomText { get; set; }
     }
 }

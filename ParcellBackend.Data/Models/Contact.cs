@@ -11,5 +11,6 @@ namespace ParcellBackend.Data.Models
         public string Header { get; set; }
         public string HeaderText { get; set; }
         public string Address { get; set; }
+        public string BottomText { get; set; }
     }
 }
