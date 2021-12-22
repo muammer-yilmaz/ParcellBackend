@@ -1,4 +1,5 @@
-﻿using ParcellBackend.Data.Models;
+﻿using MongoDB.Driver;
+using ParcellBackend.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,20 @@ namespace ParcellBackend.Data.Services {
 
         public override Task Update(string id, Device model) {
             return base.Update(id, model);
+        }
+
+        public async Task<List<Device>> GetDeviceList(List<string> deviceIds) {
+
+            List<Device> deviceList = new List<Device>();
+            
+            foreach(var i in deviceIds) {
+                var response = await base.modelMongoCollection.Find(x => x.Id == i).FirstOrDefaultAsync();
+                deviceList.Add(response);
+            }
+
+            return deviceList;
+
+            
         }
     }
 }

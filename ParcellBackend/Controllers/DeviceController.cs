@@ -73,6 +73,17 @@ namespace ParcellBackend.Controllers {
             return NoContent();
         }
 
+        [HttpPost]
+        public async Task<ActionResult<List<Device>>> GetDeviceList([FromBody] List<string> deviceIds) {
+
+            List<Device> deviceList = await deviceService.GetDeviceList(deviceIds);
+
+            if(deviceList is null) {
+                return NotFound();
+            }
+
+            return deviceList;
+        }
 
 
     }

@@ -96,10 +96,10 @@ namespace ParcellBackend.Controllers {
             var response = await basketService.CheckPlan(userId);
 
             if(response is null) {
-                return NotFound("Sepette Paket Bulunmuyor.");
+                return Ok("Sepette Paket Bulunmuyor.");
             }
             else {
-                return Ok("Sepetinizde Bir Paket Bulunuyor. Değiştirmek İster misiniz?");
+                return NotFound("Sepetinizde Bir Paket Bulunuyor. Değiştirmek İster misiniz?");
             }
         }
 
@@ -115,6 +115,17 @@ namespace ParcellBackend.Controllers {
             await basketService.AddDeviceToBasket(userId, deviceId);
 
             return Ok();
+        }
+        [HttpDelete]
+        public async Task<ActionResult> DeleteBasketPlan(string userId) {
+            await basketService.DeleteBasketPlan(userId);
+            return NoContent();
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> DeleteBasketDevice(string userId, string deviceId) {
+            await basketService.DeleteBasketDevice(userId, deviceId);
+            return NoContent();
         }
     }
 }

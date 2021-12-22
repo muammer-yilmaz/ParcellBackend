@@ -54,7 +54,7 @@ namespace ParcellBackend.Data.Services {
 
         public async Task AddPlanToBasket(string userId, string planId) {
 
-            var filter = Builders<Basket>.Filter.Where(x => x.Id == userId);
+            var filter = Builders<Basket>.Filter.Where(x => x.UserId == userId);
             var update = Builders<Basket>.Update.Set(x => x.PlanId, planId);
             var options = new FindOneAndUpdateOptions<Basket>();
 
@@ -64,7 +64,7 @@ namespace ParcellBackend.Data.Services {
 
         public async Task AddDeviceToBasket(string userId, string deviceId) {
 
-            var filter = Builders<Basket>.Filter.Where(x => x.Id == userId);
+            var filter = Builders<Basket>.Filter.Where(x => x.UserId == userId);
             var update = Builders<Basket>.Update.Push(x => x.BasketDevices, deviceId);
             var options = new FindOneAndUpdateOptions<Basket>();
 
@@ -76,6 +76,22 @@ namespace ParcellBackend.Data.Services {
 
             return basket;
 
+        }
+        public async Task DeleteBasketPlan(string userId) {
+
+            var filter = Builders<Basket>.Filter.Where(x => x.UserId == userId);
+            var update = Builders<Basket>.Update.Set(x => x.PlanId, null);
+            var options = new FindOneAndUpdateOptions<Basket>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
+        public async Task DeleteBasketDevice(string userId , string deviceId) {
+
+            var filter = Builders<Basket>.Filter.Where(x => x.UserId == userId);
+            var update = Builders<Basket>.Update.Pull(x => x.BasketDevices, deviceId);
+            var options = new FindOneAndUpdateOptions<Basket>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
         }
     }
 }
