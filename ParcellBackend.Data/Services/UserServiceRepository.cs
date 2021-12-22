@@ -11,9 +11,9 @@ namespace ParcellBackend.Data.Services {
 
         //private readonly IMongoCollection<User>
         private readonly List<int> numberFirst3Digit;
-
-        public UserServiceRepository(IDbClient<User> dbClient) : base(dbClient) {
-
+        private readonly BasketServiceRepository basketService;
+        public UserServiceRepository(IDbClient<User> dbClient, BasketServiceRepository basketService) : base(dbClient) {
+            this.basketService = basketService;
         }
 
 
@@ -25,8 +25,9 @@ namespace ParcellBackend.Data.Services {
             return base.Get(id);
         }
 
-        public override Task Create(User model) {
-            return base.Create(model);
+        public override async Task Create(User model) {
+            await base.Create(model);
+            await CreateUserBasket(model.Mail);
         }
 
         public override Task Update(string id, User model) {
@@ -73,8 +74,23 @@ namespace ParcellBackend.Data.Services {
             return "Ok";
 
         }
-    
-    
+        
+        public async Task SetUserPlan(string userId , string planId) {
+            var filter = Builders<User>.Filter.Where(x => x.Id == userId);
+            var update = Builders<User>.Update.Set(x => x.PlanId, planId);
+            var options = new FindOneAndUpdateOptions<User>();
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
+
+        public async Task CreateUserBasket(string mail) {
+            var user = await base.modelMongoCollection.Find(x => x.Mail == mail).FirstOrDefaultAsync();
+
+            await basketService.Create(new Basket {
+                UserId = user.Id,
+                PlanId = "",
+                BasketDevices = new List<string>()
+            });
+        }
         
 
     }

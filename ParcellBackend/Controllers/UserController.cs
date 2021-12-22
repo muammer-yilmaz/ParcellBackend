@@ -107,5 +107,13 @@ namespace ParcellBackend.Controllers {
 
         }
 
+        [HttpGet]
+        public async Task<ActionResult> SetUserPlan(string userId, string planId) {
+
+            await _userService.SetUserPlan(userId, planId);
+
+            return Ok();
+        }
+
     }
 }

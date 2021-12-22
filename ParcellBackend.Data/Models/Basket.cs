@@ -8,7 +8,7 @@ namespace ParcellBackend.Data.Models {
     public class Basket : BaseMongoModel {
         public string UserId { get; set; }
         public string PlanId { get; set; }
-        //public List<string> BasketDevices { get; set; }
+        public List<string> BasketDevices { get; set; }
 
 
 

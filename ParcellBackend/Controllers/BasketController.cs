@@ -72,7 +72,7 @@ namespace ParcellBackend.Controllers {
             return NoContent();
         }
         [HttpGet]
-        public async Task<IActionResult> AddPlanToBasket(string userId, string planId) {
+        public async Task<ActionResult> AddPlanToBasket(string userId, string planId) {
 
             await basketService.AddPlanToBasket(userId, planId);
 
@@ -83,12 +83,38 @@ namespace ParcellBackend.Controllers {
         public async Task<ActionResult<Basket>> GetUserBasket(string userId) {
             var basket = await basketService.GetUserBasket(userId);
 
-            if(basket is null) {
+            if (basket is null) {
                 return NotFound();
             }
             else {
                 return basket;
             }
+        }
+        [HttpGet]
+        public async Task<ActionResult> CheckPlan(string userId) {
+
+            var response = await basketService.CheckPlan(userId);
+
+            if(response is null) {
+                return NotFound("Sepette Paket Bulunmuyor.");
+            }
+            else {
+                return Ok("Sepetinizde Bir Paket Bulunuyor. Değiştirmek İster misiniz?");
+            }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> AddDeviceToBasket(string userId, string deviceId) {
+
+            var response = await basketService.CheckBasketDevices(userId);
+
+            if(response.Count == 5) {
+                return BadRequest("Sepetinizde Maksimum 5 Cihaz Bulunabilir.");
+            }
+
+            await basketService.AddDeviceToBasket(userId, deviceId);
+
+            return Ok();
         }
     }
 }

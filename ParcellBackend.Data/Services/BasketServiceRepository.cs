@@ -39,34 +39,43 @@ namespace ParcellBackend.Data.Services {
 
         //public async Task<Basket> GetUserBasket(string userId)
 
-        
+        public async Task<string> GetBasketPlan(string userId) {
+            var basket = await base.modelMongoCollection.Find(x => x.UserId == userId).FirstOrDefaultAsync();
+            return basket.PlanId;
+        }
+        public async Task<string> CheckPlan(string userId) {
+            var basket = await base.modelMongoCollection.Find(x => x.UserId == userId).FirstOrDefaultAsync();
+            return basket.PlanId;
+        }
+        public async Task<List<string>> CheckBasketDevices(string userId) {
+            var basket = await base.modelMongoCollection.Find(x => x.UserId == userId).FirstOrDefaultAsync();
+            return basket.BasketDevices;
+        }
+
         public async Task AddPlanToBasket(string userId, string planId) {
 
-            var UserBasket = await base.modelMongoCollection.Find(x => x.UserId == userId).FirstOrDefaultAsync();
+            var filter = Builders<Basket>.Filter.Where(x => x.Id == userId);
+            var update = Builders<Basket>.Update.Set(x => x.PlanId, planId);
+            var options = new FindOneAndUpdateOptions<Basket>();
 
-            if (UserBasket is null) {
-                await Create(new Basket {
-                    UserId = userId,
-                    PlanId = planId,
-                });
-            }
-            else {
-                await Update(UserBasket.Id, new Basket {
-                    UserId = userId,
-                    PlanId = planId
-                });
-            }
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+
+        }
+
+        public async Task AddDeviceToBasket(string userId, string deviceId) {
+
+            var filter = Builders<Basket>.Filter.Where(x => x.Id == userId);
+            var update = Builders<Basket>.Update.Push(x => x.BasketDevices, deviceId);
+            var options = new FindOneAndUpdateOptions<Basket>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
         }
 
         public async Task<Basket> GetUserBasket(string userId) {
             var basket = await base.modelMongoCollection.Find(x => x.UserId == userId).FirstOrDefaultAsync();
 
-            if(basket is null) {
-                return null;
-            }
-            else {
-                return basket;
-            }
+            return basket;
+
         }
     }
 }
