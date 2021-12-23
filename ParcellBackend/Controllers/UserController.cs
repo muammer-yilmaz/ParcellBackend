@@ -57,6 +57,20 @@ namespace ParcellBackend.Controllers {
             return NoContent();
         }
 
+        [HttpPut]
+        public async Task<ActionResult> UpdateUserMail(string userId, string mail)
+        {
+            await _userService.UpdateUserMail(userId, mail);
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> UpdateUserAddress(string userId, string address)
+        {
+            await _userService.UpdateUserAddress(userId, address);
+            return NoContent();
+        }
+
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> DeleteUser(string id) {
             var user = await _userService.Get(id);

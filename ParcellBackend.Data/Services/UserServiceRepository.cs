@@ -91,7 +91,24 @@ namespace ParcellBackend.Data.Services {
                 BasketDevices = new List<string>()
             });
         }
-        
+        public async Task UpdateUserMail(string userId, string mail)
+        {
+
+            var filter = Builders<User>.Filter.Where(x => x.Id == userId);
+            var update = Builders<User>.Update.Set(x => x.Mail, mail);
+            var options = new FindOneAndUpdateOptions<User>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
+        public async Task UpdateUserAddress(string userId, string address)
+        {
+
+            var filter = Builders<User>.Filter.Where(x => x.Id == userId);
+            var update = Builders<User>.Update.Set(x => x.Address, address);
+            var options = new FindOneAndUpdateOptions<User>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
 
     }
 }
