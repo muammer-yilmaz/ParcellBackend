@@ -88,10 +88,14 @@ namespace ParcellBackend.Data.Services {
         public async Task DeleteBasketDevice(string userId , string deviceId) {
 
             var filter = Builders<Basket>.Filter.Where(x => x.UserId == userId);
-            var update = Builders<Basket>.Update.Pull(x => x.BasketDevices, deviceId);
+            var basket = await base.modelMongoCollection.Find(filter).FirstOrDefaultAsync();
+            var BasketDevices = basket.BasketDevices;
+            BasketDevices.Remove(deviceId);
+            var update = Builders<Basket>.Update.Set(x => x.BasketDevices, BasketDevices);
             var options = new FindOneAndUpdateOptions<Basket>();
 
             await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
         }
+
     }
 }
