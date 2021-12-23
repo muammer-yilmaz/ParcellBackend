@@ -58,18 +58,18 @@ namespace ParcellBackend.Controllers {
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateUserMail(string userId, string mail)
+        public async Task<ActionResult> UpdateUserInfo(string userId, string mail, string address)
         {
-            await _userService.UpdateUserMail(userId, mail);
+            await _userService.UpdateUserInfo(userId, mail, address);
             return NoContent();
         }
 
-        [HttpPut]
-        public async Task<ActionResult> UpdateUserAddress(string userId, string address)
-        {
-            await _userService.UpdateUserAddress(userId, address);
-            return NoContent();
-        }
+        //[HttpPut]
+        //public async Task<ActionResult> UpdateUserAddress(string userId, string address)
+        //{
+        //    await _userService.UpdateUserAddress(userId, address);
+        //    return NoContent();
+        //}
 
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> DeleteUser(string id) {

@@ -91,11 +91,12 @@ namespace ParcellBackend.Data.Services {
                 BasketDevices = new List<string>()
             });
         }
-        public async Task UpdateUserMail(string userId, string mail)
+        public async Task UpdateUserInfo(string userId, string mail , string address)
         {
 
             var filter = Builders<User>.Filter.Where(x => x.Id == userId);
-            var update = Builders<User>.Update.Set(x => x.Mail, mail);
+            var update = Builders<User>.Update.Combine(Builders<User>.Update.Set(x => x.Mail, mail ),
+                Builders<User>.Update.Set(x => x.Address, address));
             var options = new FindOneAndUpdateOptions<User>();
 
             await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
