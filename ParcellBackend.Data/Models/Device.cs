@@ -10,7 +10,7 @@ namespace ParcellBackend.Data.Models {
 
         public string Name { get; set; }
         public string DetailText { get; set; }
-        public string Price { get; set; }
+        public double Price { get; set; }
         public string ImageDirectory { get; set; }
     }
 }

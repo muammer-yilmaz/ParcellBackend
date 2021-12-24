@@ -12,7 +12,7 @@ namespace ParcellBackend.Data.Models
         public string Internet { get; set; }
         public string Minutes { get; set; }
         public string Sms { get; set; }
-        public int Price { get; set; }
+        public double Price { get; set; }
         public string Image { get; set; }
     }
 }
