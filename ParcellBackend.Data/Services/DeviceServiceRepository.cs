@@ -36,15 +36,15 @@ namespace ParcellBackend.Data.Services {
         public async Task<List<Device>> GetDeviceList(List<string> deviceIds) {
 
             List<Device> deviceList = new List<Device>();
-            
-            foreach(var i in deviceIds) {
-                var response = await base.modelMongoCollection.Find(x => x.Id == i).FirstOrDefaultAsync();
-                deviceList.Add(response);
-            }
+
+            var filter = Builders<Device>.Filter.In(x => x.Id, deviceIds);
+
+            deviceList = await base.modelMongoCollection.Find(filter).ToListAsync();
 
             return deviceList;
 
-            
+
         }
+
     }
 }
