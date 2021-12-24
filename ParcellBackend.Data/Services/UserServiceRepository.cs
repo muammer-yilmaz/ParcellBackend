@@ -101,15 +101,6 @@ namespace ParcellBackend.Data.Services {
 
             await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
         }
-        public async Task UpdateUserAddress(string userId, string address)
-        {
-
-            var filter = Builders<User>.Filter.Where(x => x.Id == userId);
-            var update = Builders<User>.Update.Set(x => x.Address, address);
-            var options = new FindOneAndUpdateOptions<User>();
-
-            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
-        }
-
+   
     }
 }
