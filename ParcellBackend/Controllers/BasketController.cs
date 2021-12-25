@@ -71,13 +71,13 @@ namespace ParcellBackend.Controllers {
 
             return NoContent();
         }
-        [HttpGet]
-        public async Task<ActionResult> AddPlanToBasket(string userId, string planId) {
+        //[HttpGet]
+        //public async Task<ActionResult> AddPlanToBasket(string userId, string planId) {
 
-            await basketService.AddPlanToBasket(userId, planId);
+        //    await basketService.AddPlanToBasket(userId, planId);
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
         [HttpGet]
         public async Task<ActionResult<Basket>> GetUserBasket(string userId) {
@@ -90,18 +90,18 @@ namespace ParcellBackend.Controllers {
                 return basket;
             }
         }
-        [HttpGet]
-        public async Task<ActionResult> CheckPlan(string userId) {
+        //[HttpGet]
+        //public async Task<ActionResult> CheckPlan(string userId) {
 
-            var response = await basketService.CheckPlan(userId);
+        //    var response = await basketService.CheckPlan(userId);
 
-            if(response is null) {
-                return Ok("Sepette Paket Bulunmuyor.");
-            }
-            else {
-                return NotFound("Sepetinizde Bir Paket Bulunuyor. Değiştirmek İster misiniz?");
-            }
-        }
+        //    if(response is null) {
+        //        return Ok("Sepette Paket Bulunmuyor.");
+        //    }
+        //    else {
+        //        return NotFound("Sepetinizde Bir Paket Bulunuyor. Değiştirmek İster misiniz?");
+        //    }
+        //}
 
         [HttpGet]
         public async Task<ActionResult> AddDeviceToBasket(string userId, string deviceId) {
@@ -116,11 +116,11 @@ namespace ParcellBackend.Controllers {
 
             return Ok();
         }
-        [HttpDelete]
-        public async Task<ActionResult> DeleteBasketPlan(string userId) {
-            await basketService.DeleteBasketPlan(userId);
-            return NoContent();
-        }
+        //[HttpDelete]
+        //public async Task<ActionResult> DeleteBasketPlan(string userId) {
+        //    await basketService.DeleteBasketPlan(userId);
+        //    return NoContent();
+        //}
 
         [HttpDelete]
         public async Task<ActionResult> DeleteBasketDevice(string userId, string deviceId) {
