@@ -28,7 +28,6 @@ namespace ParcellBackend {
 
             services.Configure<ParcellDatabaseSettings>(Configuration.GetSection("ParcellDatabaseSettings"));
             services.AddSingleton(typeof(IDbClient<>), typeof(DbClient<>));
-            services.AddScoped<UserService>();
             services.AddScoped<UserServiceRepository>();
             services.AddScoped<DeviceServiceRepository>();
             services.AddScoped<PromotionServiceRepository>();
