@@ -37,12 +37,13 @@ namespace ParcellBackend.Data.Services {
 
             List<Device> deviceList = new List<Device>();
 
-            var filter = Builders<Device>.Filter.In(x => x.Id, deviceIds);
+            var AllList = await GetList();
 
-            deviceList = await base.modelMongoCollection.Find(filter).ToListAsync();
+            foreach(var item in deviceIds) {
+                deviceList.Add(AllList.Find(x => x.Id == item));
+            }
 
             return deviceList;
-
 
         }
 
