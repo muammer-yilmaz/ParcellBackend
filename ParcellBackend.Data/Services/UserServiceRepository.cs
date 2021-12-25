@@ -87,7 +87,6 @@ namespace ParcellBackend.Data.Services {
 
             await basketService.Create(new Basket {
                 UserId = user.Id,
-                PlanId = "",
                 BasketDevices = new List<string>()
             });
         }
@@ -100,6 +99,15 @@ namespace ParcellBackend.Data.Services {
             var options = new FindOneAndUpdateOptions<User>();
 
             await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
+
+        public async Task<string> GetUserPlan(string userId) {
+
+            var filter = Builders<User>.Filter.Where(x => x.Id == userId);
+            var user = await base.modelMongoCollection.Find(filter).FirstOrDefaultAsync();
+
+            return user.PlanId;
+
         }
    
     }
