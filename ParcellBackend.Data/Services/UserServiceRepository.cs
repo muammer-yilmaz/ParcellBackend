@@ -74,8 +74,8 @@ namespace ParcellBackend.Data.Services {
             return "Ok";
 
         }
-        
-        public async Task SetUserPlan(string userId , string planId) {
+
+        public async Task SetUserPlan(string userId, string planId) {
             var filter = Builders<User>.Filter.Where(x => x.Id == userId);
             var update = Builders<User>.Update.Set(x => x.PlanId, planId);
             var options = new FindOneAndUpdateOptions<User>();
@@ -90,11 +90,10 @@ namespace ParcellBackend.Data.Services {
                 BasketDevices = new List<string>()
             });
         }
-        public async Task UpdateUserInfo(string userId, string mail , string address)
-        {
+        public async Task UpdateUserInfo(string userId, string mail, string address) {
 
             var filter = Builders<User>.Filter.Where(x => x.Id == userId);
-            var update = Builders<User>.Update.Combine(Builders<User>.Update.Set(x => x.Mail, mail ),
+            var update = Builders<User>.Update.Combine(Builders<User>.Update.Set(x => x.Mail, mail),
                 Builders<User>.Update.Set(x => x.Address, address));
             var options = new FindOneAndUpdateOptions<User>();
 
@@ -109,6 +108,25 @@ namespace ParcellBackend.Data.Services {
             return user.PlanId;
 
         }
-   
+
+        public async Task<double> GetUserBalance(string userId) {
+            var filter = Builders<User>.Filter.Where(x => x.Id == userId);
+            var user = await base.modelMongoCollection.Find(filter).FirstOrDefaultAsync();
+
+            return user.Balance;
+        }
+
+
+        public async Task UpdateUserBalance(string userId, double newBalance) {
+
+            var filter = Builders<User>.Filter.Where(x => x.Id == userId);
+
+            var update = Builders<User>.Update.Set(x => x.Balance, newBalance);
+            var options = new FindOneAndUpdateOptions<User>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
+
+
     }
 }

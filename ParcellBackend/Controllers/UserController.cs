@@ -129,5 +129,39 @@ namespace ParcellBackend.Controllers {
             return Ok();
         }
 
+        [HttpPut]
+        public async Task<ActionResult> DepositUserBalance(string userId, double balance) {
+
+            var oldBalance = await _userService.GetUserBalance(userId);
+
+            if(oldBalance + balance > 9999.99) {
+                return BadRequest("Maksimum Bakiye 9999.99");
+            }
+
+            await _userService.UpdateUserBalance(userId, balance);
+
+            return Ok();
+        
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> PayWithBalance(string userId, double price) {
+
+            var currentBalance = await _userService.GetUserBalance(userId);
+
+            if(currentBalance < price) {
+                return BadRequest("Bakiye Yetersiz.");
+            }
+
+            var newBalance = currentBalance - price;
+
+            await _userService.UpdateUserBalance(userId, newBalance);
+
+            return Ok();
+
+
+        }
+
     }
 }
+
