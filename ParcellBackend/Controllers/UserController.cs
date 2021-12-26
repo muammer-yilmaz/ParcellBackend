@@ -37,6 +37,21 @@ namespace ParcellBackend.Controllers {
         [HttpPost]
         public async Task<IActionResult> CreateUser(User newUser) {
 
+            var userCheck = await _userService.GetUserWithMail(newUser.Mail);
+
+            if(userCheck is not null) {
+                return BadRequest("Bu mail adresi ile kayıtlı kullanıcı bulunuyor.");
+            }
+
+            if(newUser.Phone == "yeni") {
+                var phoneNumber = await _userService.AssignPhoneNumber();
+
+                while (!_userService.CheckNumberAvailability(phoneNumber).Result) {
+                    phoneNumber = await _userService.AssignPhoneNumber();
+                }
+                newUser.Phone = phoneNumber;
+            }
+
             await _userService.Create(newUser);
 
             return CreatedAtAction(nameof(GetUser), new { id = newUser.Id }, newUser);

@@ -10,8 +10,10 @@ namespace ParcellBackend.Data.Services {
     public class UserServiceRepository : BaseMongoRepository<User> {
 
         //private readonly IMongoCollection<User>
-        private readonly List<int> numberFirst3Digit;
+        private readonly List<string> numberFirst3Digit =
+            new List<string> { "510", "511", "512", "513", "514", "515", "516", "517", "518", "519", "520" };
         private readonly BasketServiceRepository basketService;
+        static Random rnd = new Random();
         public UserServiceRepository(IDbClient<User> dbClient, BasketServiceRepository basketService) : base(dbClient) {
             this.basketService = basketService;
         }
@@ -26,6 +28,7 @@ namespace ParcellBackend.Data.Services {
         }
 
         public override async Task Create(User model) {
+
             await base.Create(model);
             await CreateUserBasket(model.Mail);
         }
@@ -44,10 +47,29 @@ namespace ParcellBackend.Data.Services {
         public async Task<User> GetUserWithMail(string mail) =>
             await base.modelMongoCollection.Find(x => x.Mail == mail).FirstOrDefaultAsync();
 
-        /*
+
         public async Task<string> AssignPhoneNumber() {
+
+            StringBuilder builder = new StringBuilder(12);
+            var first3Digit = numberFirst3Digit[rnd.Next(numberFirst3Digit.Count)];
+            var second3Digit = rnd.Next(100, 999);
+            var digit4First2 = rnd.Next(10, 99); 
+            var digit4Last2 = rnd.Next(10, 99);
+            var fullString = first3Digit + "-" + second3Digit.ToString() + "-" + digit4First2.ToString() + digit4Last2.ToString();
+            builder.Append(fullString);
+
+            return builder.ToString();
         }
-        */
+
+        public async Task<bool> CheckNumberAvailability(string phoneNumber) {
+            var response = await base.modelMongoCollection.Find(x => x.Phone == phoneNumber).FirstOrDefaultAsync();
+
+            if (response is null) {
+                return true;
+            }
+            else
+                return false;
+        }
 
         public async Task<string> ChangeUserPassword(string oldPassword, string newPassword) {
             var user = await base.modelMongoCollection.Find(x => x.Password == oldPassword).FirstOrDefaultAsync();
