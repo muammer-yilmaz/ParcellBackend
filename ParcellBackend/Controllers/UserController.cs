@@ -79,13 +79,6 @@ namespace ParcellBackend.Controllers {
             return NoContent();
         }
 
-        //[HttpPut]
-        //public async Task<ActionResult> UpdateUserAddress(string userId, string address)
-        //{
-        //    await _userService.UpdateUserAddress(userId, address);
-        //    return NoContent();
-        //}
-
         [HttpDelete("{id:length(24)}")]
         public async Task<IActionResult> DeleteUser(string id) {
             var user = await _userService.Get(id);
@@ -111,7 +104,6 @@ namespace ParcellBackend.Controllers {
             return user;
         }
 
-        
         [HttpGet]
         public async Task<ActionResult<User>> GetUserWithMail(string mail) {
 
