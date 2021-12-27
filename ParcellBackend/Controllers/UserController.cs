@@ -39,11 +39,11 @@ namespace ParcellBackend.Controllers {
 
             var userCheck = await _userService.GetUserWithMail(newUser.Mail);
 
-            if(userCheck is not null) {
+            if (userCheck is not null) {
                 return BadRequest("Bu mail adresi ile kayıtlı kullanıcı bulunuyor.");
             }
 
-            if(newUser.Phone == "yeni") {
+            if (newUser.Phone == "yeni") {
                 var phoneNumber = await _userService.AssignPhoneNumber();
 
                 while (!_userService.CheckNumberAvailability(phoneNumber).Result) {
@@ -73,8 +73,7 @@ namespace ParcellBackend.Controllers {
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateUserInfo(string userId, string mail, string address)
-        {
+        public async Task<ActionResult> UpdateUserInfo(string userId, string mail, string address) {
             await _userService.UpdateUserInfo(userId, mail, address);
             return NoContent();
         }
@@ -93,11 +92,11 @@ namespace ParcellBackend.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult<User>> LoginWithMail(string mail , string password) {
+        public async Task<ActionResult<User>> LoginWithMail(string mail, string password) {
 
-            var user = await _userService.LoginWithMail(mail,password);
+            var user = await _userService.LoginWithMail(mail, password);
 
-            if(user is null) {
+            if (user is null) {
                 return NotFound("kullanıcı bulunamadı");
             }
 
@@ -116,7 +115,7 @@ namespace ParcellBackend.Controllers {
 
             return Ok(user);
         }
-        
+
         [HttpGet]
         public async Task<ActionResult> ChangeUserPassword(string oldPassword, string newPassword) {
             var response = await _userService.ChangeUserPassword(oldPassword, newPassword);
@@ -141,14 +140,14 @@ namespace ParcellBackend.Controllers {
 
             var oldBalance = await _userService.GetUserBalance(userId);
 
-            if(oldBalance + balance > 9999.99) {
+            if (oldBalance + balance > 9999.99) {
                 return BadRequest("Maksimum Bakiye 9999.99");
             }
 
             await _userService.UpdateUserBalance(userId, balance);
 
             return Ok();
-        
+
         }
 
         [HttpPut]
@@ -156,7 +155,7 @@ namespace ParcellBackend.Controllers {
 
             var currentBalance = await _userService.GetUserBalance(userId);
 
-            if(currentBalance < price) {
+            if (currentBalance < price) {
                 return BadRequest("Bakiye Yetersiz.");
             }
 
@@ -166,7 +165,14 @@ namespace ParcellBackend.Controllers {
 
             return Ok();
 
+        }
 
+        [HttpGet]
+        public async Task<ActionResult<double>> GetUserBalance(string userId) {
+
+            var balance = await _userService.GetUserBalance(userId);
+
+            return Ok(balance);
         }
 
     }
