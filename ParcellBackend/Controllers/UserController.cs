@@ -175,6 +175,18 @@ namespace ParcellBackend.Controllers {
             return Ok(balance);
         }
 
+        [HttpGet]
+        public async Task<ActionResult<string>> GetUserPlan(string userId) {
+
+            var planId = await _userService.GetUserPlan(userId);
+
+            if(planId == null || planId == "") {
+                return NotFound("Paketiniz Bulunmamaktadır.");
+            }
+            else {
+                return planId;
+            }
+        }
     }
 }
 
