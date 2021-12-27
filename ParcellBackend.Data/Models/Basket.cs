@@ -9,7 +9,5 @@ namespace ParcellBackend.Data.Models {
         public string UserId { get; set; }
         public List<string> BasketDevices { get; set; }
 
-
-
     }
 }

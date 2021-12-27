@@ -127,5 +127,12 @@ namespace ParcellBackend.Controllers {
             await basketService.DeleteBasketDevice(userId, deviceId);
             return NoContent();
         }
+
+        [HttpDelete]
+        public async Task<ActionResult> ClearBasket(string userId) {
+            await basketService.ClearBasket(userId);
+
+            return NoContent();
+        }
     }
 }

@@ -77,7 +77,7 @@ namespace ParcellBackend.Controllers {
 
             await orderService.AddOrder(userId,orderItem);
 
-            return Ok(orderItem);
+            return Ok();
         }
 
         [HttpGet]

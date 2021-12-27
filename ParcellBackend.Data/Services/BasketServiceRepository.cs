@@ -85,13 +85,23 @@ namespace ParcellBackend.Data.Services {
 
         //    await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
         //}
-        public async Task DeleteBasketDevice(string userId , string deviceId) {
+        public async Task DeleteBasketDevice(string userId, string deviceId) {
 
             var filter = Builders<Basket>.Filter.Where(x => x.UserId == userId);
             var basket = await base.modelMongoCollection.Find(filter).FirstOrDefaultAsync();
             var BasketDevices = basket.BasketDevices;
             BasketDevices.Remove(deviceId);
             var update = Builders<Basket>.Update.Set(x => x.BasketDevices, BasketDevices);
+            var options = new FindOneAndUpdateOptions<Basket>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
+
+        public async Task ClearBasket(string userId) {
+            var filter = Builders<Basket>.Filter.Where(x => x.UserId == userId);
+            var basket = await base.modelMongoCollection.Find(filter).FirstOrDefaultAsync();
+
+            var update = Builders<Basket>.Update.Set(x => x.BasketDevices, new List<string>());
             var options = new FindOneAndUpdateOptions<Basket>();
 
             await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
