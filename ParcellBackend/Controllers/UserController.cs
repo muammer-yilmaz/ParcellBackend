@@ -144,7 +144,7 @@ namespace ParcellBackend.Controllers {
                 return BadRequest("Maksimum Bakiye 9999.99");
             }
 
-            await _userService.UpdateUserBalance(userId, balance);
+            await _userService.UpdateUserBalance(userId, oldBalance + balance);
 
             return Ok();
 
