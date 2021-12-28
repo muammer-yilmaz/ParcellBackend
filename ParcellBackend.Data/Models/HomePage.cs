@@ -15,9 +15,13 @@ namespace ParcellBackend.Data.Models
         public string Logo { get; set; }
 
         public string Card1 { get; set; }
+        public string CardImage1 { get; set; }
 
         public string Card2 { get; set; }
+        public string CardImage2 { get; set; }
+
         public string Card3 { get; set; }
+        public string CardImage3 { get; set; }
     }
     
 }
