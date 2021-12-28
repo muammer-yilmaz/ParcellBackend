@@ -13,15 +13,17 @@ namespace ParcellBackend.Data.Models
     {
         public string HeaderText { get; set; }
         public string Logo { get; set; }
+        public Cards Card1 { get; set; }
 
-        public string Card1 { get; set; }
-        public string CardImage1 { get; set; }
+        public Cards Card2 { get; set; }
 
-        public string Card2 { get; set; }
-        public string CardImage2 { get; set; }
+        public Cards Card3 { get; set; }
 
-        public string Card3 { get; set; }
-        public string CardImage3 { get; set; }
+    }
+    public class Cards
+    {
+        public string Card { get; set; }
+        public string CardImage { get; set; }
     }
     
 }
