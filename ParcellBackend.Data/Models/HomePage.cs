@@ -14,14 +14,10 @@ namespace ParcellBackend.Data.Models
         public string HeaderText { get; set; }
         public string Logo { get; set; }
 
-        public List<Card> Cards { get; set; }
+        public string Card1 { get; set; }
+
+        public string Card2 { get; set; }
+        public string Card3 { get; set; }
     }
-    public class Card
-    {
-        [BsonId(IdGenerator = typeof(StringObjectIdGenerator))]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
-        public string CardText { get; set; }
-        public string CardImage { get; set; }
-    }
+    
 }
