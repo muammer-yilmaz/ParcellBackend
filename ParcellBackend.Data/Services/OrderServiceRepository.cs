@@ -49,6 +49,7 @@ namespace ParcellBackend.Data.Services {
 
             var filter = Builders<Order>.Filter.Where(x => x.UserId == userId);
             var date = DateTime.Now;
+            date = date.AddHours(3);
             var item = new OrderItem { Id = ObjectId.GenerateNewId().ToString(),
                 DeviceIds = order.DeviceIds, OrderAddress = order.OrderAddress,
                 OrderDate = date,
