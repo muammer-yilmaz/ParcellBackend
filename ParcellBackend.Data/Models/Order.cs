@@ -20,6 +20,7 @@ namespace ParcellBackend.Data.Models {
         public string Id { get; set; }
         public List<string> DeviceIds { get; set; }
         public string OrderAddress { get; set; }
+        public DateTime OrderDate { get; set; }
         public double TotalPrice { get; set; }
     }
 }

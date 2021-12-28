@@ -48,8 +48,10 @@ namespace ParcellBackend.Data.Services {
                 await CreateUserOrder(userId);
 
             var filter = Builders<Order>.Filter.Where(x => x.UserId == userId);
+            var date = DateTime.Now;
             var item = new OrderItem { Id = ObjectId.GenerateNewId().ToString(),
                 DeviceIds = order.DeviceIds, OrderAddress = order.OrderAddress,
+                OrderDate = date,
                 TotalPrice = order.TotalPrice };
             var update = Builders<Order>.Update.Push(x => x.OrderItems, item);
             var options = new FindOneAndUpdateOptions<Order>();
