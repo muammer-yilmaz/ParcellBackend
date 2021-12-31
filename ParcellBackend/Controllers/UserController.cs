@@ -201,7 +201,7 @@ namespace ParcellBackend.Controllers {
             var mailResponse = await _userService.GetUserWithMail(mail);
             var phoneResponse = await _userService.GetUserWithPhone(phone);
 
-            if(mailResponse is null && phone is null) {
+            if(mailResponse == null && phoneResponse == null) {
                 return NotFound("Mail ve Telefon numarası kayıtlı değil");
             }
             else if(phoneResponse is null) {
