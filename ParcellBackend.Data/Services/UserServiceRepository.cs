@@ -47,6 +47,15 @@ namespace ParcellBackend.Data.Services {
         public async Task<User> GetUserWithMail(string mail) =>
             await base.modelMongoCollection.Find(x => x.Mail == mail).FirstOrDefaultAsync();
 
+        public async Task<User> GetUserWithPassword(string password) {
+            var user = await base.modelMongoCollection.Find(x => x.Password == password).FirstOrDefaultAsync();
+            return user;
+        }
+
+        public async Task<User> GetUserWithPhone(string phone) {
+            var user = await base.modelMongoCollection.Find(x => x.Phone == phone).FirstOrDefaultAsync();
+            return user;
+        }
 
         public async Task<string> AssignPhoneNumber() {
 
@@ -71,30 +80,13 @@ namespace ParcellBackend.Data.Services {
                 return false;
         }
 
-        public async Task<string> ChangeUserPassword(string oldPassword, string newPassword) {
-            var user = await base.modelMongoCollection.Find(x => x.Password == oldPassword).FirstOrDefaultAsync();
+        public async Task ChangeUserPassword(string userId, string newPassword) {
 
-            if (user is null) {
-                return "NotFound";
-            }
-            else {
-                var changedUser = new User {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Surname = user.Surname,
-                    Mail = user.Mail,
-                    Phone = user.Phone,
-                    BirthDate = user.BirthDate,
-                    BirthPlace = user.BirthPlace,
-                    Address = user.Address,
-                    Balance = user.Balance,
-                    Gender = user.Gender,
-                    Password = newPassword
-                };
-                await base.modelMongoCollection.ReplaceOneAsync(x => x.Id == user.Id, changedUser);
-            }
-            return "Ok";
+            var filter = Builders<User>.Filter.Where(x => x.Id == userId);
+            var update = Builders<User>.Update.Set(x => x.Password, newPassword);
+            var options = new FindOneAndUpdateOptions<User>();
 
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
         }
 
         public async Task SetUserPlan(string userId, string planId) {
@@ -112,6 +104,7 @@ namespace ParcellBackend.Data.Services {
                 BasketDevices = new List<string>()
             });
         }
+
         public async Task UpdateUserInfo(string userId, string mail, string address) {
 
             var filter = Builders<User>.Filter.Where(x => x.Id == userId);
@@ -138,7 +131,6 @@ namespace ParcellBackend.Data.Services {
             return user.Balance;
         }
 
-
         public async Task UpdateUserBalance(string userId, double newBalance) {
 
             var filter = Builders<User>.Filter.Where(x => x.Id == userId);
@@ -149,6 +141,14 @@ namespace ParcellBackend.Data.Services {
             await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
         }
 
+        public async Task PasswordForget(string mail, string newPassword) {
 
+            var filter = Builders<User>.Filter.Where(x => x.Mail == mail);
+            var update = Builders<User>.Update.Set(x => x.Password, newPassword);
+            var options = new FindOneAndUpdateOptions<User>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+
+        }
     }
 }

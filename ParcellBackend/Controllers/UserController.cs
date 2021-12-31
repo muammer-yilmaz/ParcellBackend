@@ -118,13 +118,13 @@ namespace ParcellBackend.Controllers {
 
         [HttpGet]
         public async Task<ActionResult> ChangeUserPassword(string oldPassword, string newPassword) {
-            var response = await _userService.ChangeUserPassword(oldPassword, newPassword);
+            var response = await _userService.GetUserWithPassword(oldPassword);
 
-            if (response == "NotFound")
-                return NotFound();
-            else
-                return Ok();
+            if (response is null)
+                return NotFound("Eski Şifreniz Yanlış");
 
+            await _userService.ChangeUserPassword(response.Id, newPassword);
+            return Ok();
         }
 
         [HttpGet]
@@ -186,6 +186,33 @@ namespace ParcellBackend.Controllers {
             else {
                 return planId;
             }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> PasswordForget(string mail,string newPassword) {
+
+            await _userService.PasswordForget(mail,newPassword);
+            return NoContent();
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PasswordForgetCheck(string mail, string phone) {
+
+            var mailResponse = await _userService.GetUserWithMail(mail);
+            var phoneResponse = await _userService.GetUserWithPhone(phone);
+
+            if(mailResponse is null && phone is null) {
+                return NotFound("Mail ve Telefon numarası kayıtlı değil");
+            }
+            else if(phoneResponse is null) {
+                return NotFound("Telefon numarası kayıtlı değil");
+            }
+            else if(mailResponse is null) {
+                return NotFound("Mail adresi kayıtlı değil");
+            }
+
+            return Ok("Lütfen yeni şifrenizi girin");
+            
         }
     }
 }
