@@ -19,8 +19,8 @@ namespace ParcellBackend.Data.Models {
     }
 
     public class RemaingUsage {
-        public string Internet { get; set; }
-        public string Minutes { get; set; }
-        public string Sms { get; set; }
+        public double Internet { get; set; }
+        public int Minutes { get; set; }
+        public int Sms { get; set; }
     }
 }

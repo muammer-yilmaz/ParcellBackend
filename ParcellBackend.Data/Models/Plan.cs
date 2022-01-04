@@ -9,9 +9,9 @@ namespace ParcellBackend.Data.Models
     public class Plan : BaseMongoModel
     {
         public string PlanName { get; set; }
-        public string Internet { get; set; }
-        public string Minutes { get; set; }
-        public string Sms { get; set; }
+        public double Internet { get; set; }
+        public int Minutes { get; set; }
+        public int Sms { get; set; }
         public double Price { get; set; }
         public string Image { get; set; }
     }
