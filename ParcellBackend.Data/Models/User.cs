@@ -15,5 +15,12 @@ namespace ParcellBackend.Data.Models {
         public string Address { get; set; }
         public double Balance { get; set; }
         public string PlanId { get; set; }
+        public RemaingUsage? RemaingUsage { get; set; }
+    }
+
+    public class RemaingUsage {
+        public string Internet { get; set; }
+        public string Minutes { get; set; }
+        public string Sms { get; set; }
     }
 }

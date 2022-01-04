@@ -38,6 +38,8 @@ namespace ParcellBackend {
             services.AddScoped<BasketServiceRepository>();
             services.AddScoped<OrderServiceRepository>();
             services.AddScoped<HomePageServiceRepository>();
+            services.AddScoped<InvoiceServiceRepository>();
+            services.AddScoped<DeviceDetailsServiceRepository>();
 
             services.AddCors(c =>
             {

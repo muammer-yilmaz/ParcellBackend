@@ -13,8 +13,11 @@ namespace ParcellBackend.Data.Services {
         private readonly List<string> numberFirst3Digit =
             new List<string> { "510", "511", "512", "513", "514", "515", "516", "517", "518", "519", "520" };
         private readonly BasketServiceRepository basketService;
+        private readonly PlanServiceRepository planService;
         static Random rnd = new Random();
-        public UserServiceRepository(IDbClient<User> dbClient, BasketServiceRepository basketService) : base(dbClient) {
+        public UserServiceRepository(IDbClient<User> dbClient, BasketServiceRepository basketService,
+            PlanServiceRepository planService) : base(dbClient) {
+            this.planService = planService;
             this.basketService = basketService;
         }
 
@@ -62,7 +65,7 @@ namespace ParcellBackend.Data.Services {
             StringBuilder builder = new StringBuilder(12);
             var first3Digit = numberFirst3Digit[rnd.Next(numberFirst3Digit.Count)];
             var second3Digit = rnd.Next(100, 999);
-            var digit4First2 = rnd.Next(10, 99); 
+            var digit4First2 = rnd.Next(10, 99);
             var digit4Last2 = rnd.Next(10, 99);
             var fullString = first3Digit + "-" + second3Digit.ToString() + "-" + digit4First2.ToString() + digit4Last2.ToString();
             builder.Append(fullString);
@@ -94,6 +97,7 @@ namespace ParcellBackend.Data.Services {
             var update = Builders<User>.Update.Set(x => x.PlanId, planId);
             var options = new FindOneAndUpdateOptions<User>();
             await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+            await SetRemaingUsage(userId,planId);
         }
 
         public async Task CreateUserBasket(string mail) {
@@ -149,6 +153,40 @@ namespace ParcellBackend.Data.Services {
 
             await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
 
+        }
+
+        public async Task<RemaingUsage> GetRemaingUsage(string userId) {
+            var user = await Get(userId);
+
+            return user.RemaingUsage;
+
+        }
+
+        public async Task SetRemaingUsage(string userId, string planId) {
+
+            var plan = await planService.Get(planId);
+
+            var usage = new RemaingUsage {
+                Internet = plan.Internet,
+                Minutes = plan.Minutes,
+                Sms = plan.Sms,
+            };
+
+            var filter = Builders<User>.Filter.Where(x => x.Id == userId);
+            var update = Builders<User>.Update.Set(x => x.RemaingUsage, usage);
+            var options = new FindOneAndUpdateOptions<User>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
+
+        public async Task ChangeRemaingUsage(string userId, RemaingUsage remaingUsage) {
+            var user = await Get(userId);
+
+            var filter = Builders<User>.Filter.Where(x => x.Id == userId);
+            var update = Builders<User>.Update.Set(x => x.RemaingUsage, remaingUsage);
+            var options = new FindOneAndUpdateOptions<User>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
         }
     }
 }

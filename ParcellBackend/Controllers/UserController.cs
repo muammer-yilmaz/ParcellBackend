@@ -214,6 +214,27 @@ namespace ParcellBackend.Controllers {
             return Ok("Lütfen yeni şifrenizi girin");
             
         }
+
+        [HttpGet]
+        public async Task<ActionResult<RemaingUsage>> GetRemaingUsage(string userId) {
+
+            var remaingUsage = await _userService.GetRemaingUsage(userId);
+
+            if(remaingUsage is null) {
+
+                return NotFound("Kalan Kullanım Bulunamadı.");
+            }
+
+            else {
+                return remaingUsage;
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> ChangeRemaingUsage(string userId, RemaingUsage remaingUsage) {
+            await _userService.ChangeRemaingUsage(userId, remaingUsage);
+            return Ok();
+        }
     }
 }
 
