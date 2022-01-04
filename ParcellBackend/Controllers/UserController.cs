@@ -216,9 +216,9 @@ namespace ParcellBackend.Controllers {
         }
 
         [HttpGet]
-        public async Task<ActionResult<RemaingUsage>> GetRemaingUsage(string userId) {
+        public async Task<ActionResult<RemaingUsage>> GetRemainingUsage(string userId) {
 
-            var remaingUsage = await _userService.GetRemaingUsage(userId);
+            var remaingUsage = await _userService.GetRemainingUsage(userId);
 
             if(remaingUsage is null) {
 
@@ -231,8 +231,8 @@ namespace ParcellBackend.Controllers {
         }
 
         [HttpPut]
-        public async Task<ActionResult> ChangeRemaingUsage(string userId, RemaingUsage remaingUsage) {
-            await _userService.ChangeRemaingUsage(userId, remaingUsage);
+        public async Task<ActionResult> ChangeRemainingUsage(string userId, RemaingUsage remaingUsage) {
+            await _userService.ChangeRemainingUsage(userId, remaingUsage);
             return Ok();
         }
     }

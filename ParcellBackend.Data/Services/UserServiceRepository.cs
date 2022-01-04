@@ -155,7 +155,7 @@ namespace ParcellBackend.Data.Services {
 
         }
 
-        public async Task<RemaingUsage> GetRemaingUsage(string userId) {
+        public async Task<RemaingUsage> GetRemainingUsage(string userId) {
             var user = await Get(userId);
 
             return user.RemaingUsage;
@@ -179,7 +179,7 @@ namespace ParcellBackend.Data.Services {
             await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
         }
 
-        public async Task ChangeRemaingUsage(string userId, RemaingUsage remaingUsage) {
+        public async Task ChangeRemainingUsage(string userId, RemaingUsage remaingUsage) {
             var user = await Get(userId);
 
             var filter = Builders<User>.Filter.Where(x => x.Id == userId);
