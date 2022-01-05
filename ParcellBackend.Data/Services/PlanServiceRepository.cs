@@ -1,4 +1,5 @@
-﻿using ParcellBackend.Data.Models;
+﻿using MongoDB.Driver;
+using ParcellBackend.Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,11 @@ namespace ParcellBackend.Data.Services
         public override Task Update(string id, Plan model)
         {
             return base.Update(id, model);
+        }
+
+        public async Task<List<Plan>> GetInvoicePlans() {
+            var list = await base.modelMongoCollection.Find(x => x.PlanName.Contains("Fatura")).ToListAsync();
+            return list;
         }
     }
 }

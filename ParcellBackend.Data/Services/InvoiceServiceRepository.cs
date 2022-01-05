@@ -50,7 +50,8 @@ namespace ParcellBackend.Data.Services {
                 UserId = userId,
                 PlanId = planId,
                 ContractTime = contractTime,
-                ContractDate = DateTime.Now
+                ContractDate = DateTime.Now,
+                BillingDate = DateTime.Now.AddDays(30)
             };
 
             await base.modelMongoCollection.InsertOneAsync(invoice);
@@ -63,6 +64,8 @@ namespace ParcellBackend.Data.Services {
                 Builders<Invoice>.Update.Set(x => x.PlanId, planId),
                 Builders<Invoice>.Update.Set(x => x.ContractTime, contractTime));
                 Builders<Invoice>.Update.Set(x => x.ContractDate, DateTime.Now);
+                Builders<Invoice>.Update.Set(x => x.BillingDate, DateTime.Now.AddDays(30));
+
             var options = new FindOneAndUpdateOptions<Invoice>();
 
             await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);

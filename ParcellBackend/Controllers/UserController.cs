@@ -231,7 +231,7 @@ namespace ParcellBackend.Controllers {
         }
 
         [HttpPut]
-        public async Task<ActionResult> ChangeRemainingUsage(string userId, RemaingUsage remaingUsage) {
+        public async Task<ActionResult> ChangeRemainingUsage(string userId, [FromBody]RemaingUsage remaingUsage) {
             await _userService.ChangeRemainingUsage(userId, remaingUsage);
             return Ok();
         }

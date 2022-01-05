@@ -10,7 +10,9 @@ namespace ParcellBackend.Data.Models {
         public string UserId { get; set; }
         public string PlanId { get; set; }
         public DateTime ContractDate { get; set; }
+        public DateTime BillingDate { get; set; }
         public string ContractTime { get; set; }
+
 
     }
 }

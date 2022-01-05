@@ -81,5 +81,11 @@ namespace ParcellBackend.Controllers
 
             return NoContent();
         }
+
+        [HttpGet]
+        public async Task<ActionResult<List<Plan>>> GetInvoicePlans() {
+            var list = await planService.GetInvoicePlans();
+            return Ok(list);
+        }
     }
 }
