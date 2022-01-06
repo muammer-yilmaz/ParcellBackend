@@ -24,17 +24,6 @@ namespace ParcellBackend.Controllers {
             return textList;
         }
 
-        [HttpGet("{id:length(24)}")]
-        public async Task<ActionResult<Invoice>> GetInvoice(string id) {
-            var text = await invoiceService.Get(id);
-
-
-            if (text is null) {
-                return NotFound();
-            }
-
-            return text;
-        }
 
         [HttpPost]
         public async Task<IActionResult> CreateInvoice(Invoice newInvoice) {
@@ -57,6 +46,43 @@ namespace ParcellBackend.Controllers {
                 await invoiceService.AddInvoice(invoice, planId, contractTime);
                 return Ok("Faturalı Hattınız Değiştirildi.");
             }
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<Invoice>> GetInvoice(string userId) {
+            var invoice = await invoiceService.GetInvoice(userId);
+
+            if(invoice is null) {
+                return NotFound();
+            }
+            return Ok(invoice);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> PayBill(string userId) {
+            await invoiceService.PayBill(userId);
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> CancelInvoice(string userId) {
+            await invoiceService.CancelInvoice(userId);
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> ChangeBillDate(string userId, double day) {
+            await invoiceService.ChangeBillDate(userId, day);
+
+            return NoContent();
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> SetInvoicePlan(string userId, string planId) {
+            await invoiceService.SetInvoicePlan(userId, planId);
+
+            return NoContent();
         }
     }
 }

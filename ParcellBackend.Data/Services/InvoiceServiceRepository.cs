@@ -75,5 +75,36 @@ namespace ParcellBackend.Data.Services {
             var filter = Builders<Invoice>.Filter.Where(x => x.UserId == userId);
             await base.modelMongoCollection.FindOneAndDeleteAsync(filter);
         }
+
+        public async Task ChangeBillDate(string userId, double day) {
+
+            var filter = Builders<Invoice>.Filter.Where(x => x.UserId == userId);
+            var date = DateTime.Now.AddDays(day);
+            var update = Builders<Invoice>.Update.Set(x => x.BillingDate, date);
+            var options = new FindOneAndUpdateOptions<Invoice>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
+
+        public async Task PayBill(string userId) {
+
+            var invoice = await GetInvoice(userId);
+
+            var filter = Builders<Invoice>.Filter.Where(x => x.UserId == userId);
+            var date = invoice.BillingDate.AddDays(30);
+            var update = Builders<Invoice>.Update.Set(x => x.BillingDate, date);
+            var options = new FindOneAndUpdateOptions<Invoice>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
+
+        public async Task SetInvoicePlan(string userId, string planId) {
+            var filter = Builders<Invoice>.Filter.Where(x => x.UserId == userId);
+            var update = Builders<Invoice>.Update.Set(x => x.PlanId, planId);
+            var options = new FindOneAndUpdateOptions<Invoice>();
+
+            await base.modelMongoCollection.FindOneAndUpdateAsync(filter, update, options);
+        }
+
     }
 }
